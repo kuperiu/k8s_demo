@@ -7,5 +7,5 @@
 
 ## Tools (please run source aliases.sh before to use them)
  * **_run**: Create the environment variables from the config map and run the sprint boot app locally 
- * **build**: Compile the springboot app and build a docker image with it
- * **_deploy_**: Delete and apply the current config maps and deployment
+ * **_build**: Compile the springboot app and build a docker image with it
+ * **_deploy**: Delete and apply the current config maps and deployment
