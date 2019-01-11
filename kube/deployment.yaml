@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: suchapp
+  labels:
+    serviceType: suchapp
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      name: suchapp
+      labels:
+        serviceType: suchapp
+    spec:
+      containers:
+        - name: suchapp
+          # resources:
+          #     requests:
+          #       memory: "64Mi"
+          #       cpu: "250m"
+          #     limits:
+          #       memory: "128Mi"
+          #       cpu: "500m"
+          image: kuperiu/suchapp:latest
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+          - name: JAVA_OPTS
+            value: -Xmx64m -Xms64m
+          - name: suchname
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: suchname
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 40
+            timeoutSeconds: 1
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 40
+            timeoutSeconds: 1
+            periodSeconds: 15
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: suchapp-svc
+  namespace: default
+spec:
+  selector:
+    serviceType: suchapp
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30001
+  type: NodePort
