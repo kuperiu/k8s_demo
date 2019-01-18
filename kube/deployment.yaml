@@ -36,25 +36,30 @@ spec:
           env:
           - name: JAVA_OPTS
             value: -Xmx64m -Xms64m
-          - name: suchname
+          - name: DB_HOST
             valueFrom:
               configMapKeyRef:
                 name: my-config
-                key: suchname
+                key: db_host
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: db_port
           livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
+            initialDelaySeconds: 10
             timeoutSeconds: 1
-            periodSeconds: 15
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 40
+            initialDelaySeconds: 10
             timeoutSeconds: 1
-            periodSeconds: 15
+            periodSeconds: 5
             
 ---
 apiVersion: v1

@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SuchController {
 
-	@Value("${suchname}") private String suchName;
+	@Value("${DB_HOST}") private String dbHost;
+	@Value("${DB_PORT}") private String dbPort;
 	
 	@RequestMapping("/")
 	public String suchHello(){
-		return "hello " + suchName;
+		return "Connecting to " + dbHost + ":" + dbPort;
 	}
 }
