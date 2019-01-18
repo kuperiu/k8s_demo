@@ -4,5 +4,5 @@ metadata:
   name: my-config
   namespace: default
 data:
-  suchname: robot2222
-  city: amsterdam
+  db_host: "db.staging.gcp.com"
+  db_port: "3306"
